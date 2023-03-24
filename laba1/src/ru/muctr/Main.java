@@ -20,7 +20,7 @@ public class Main {
 //        System.out.println(Arrays.toString(arrayInt12));
         String str = "  123  123  1 1   13 1";
         String[] strs = str.split(" ");
-        split_space(str);
+        splitSpace(str);
         for (String element :strs) {
             System.out.print(element);
         }
@@ -39,7 +39,7 @@ public class Main {
             }
         }
     }
-    public  static void split_space (String str) {
+    public  static void splitSpace (String str) {
         int resultSize = 0;
         int next = 0;
         int prev = 0;
