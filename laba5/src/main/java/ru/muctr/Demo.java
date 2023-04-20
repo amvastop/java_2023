@@ -8,15 +8,15 @@ import java.util.*;
 
 public class Demo {
     public static void main(String[] args) throws IOException {
-        ArrayList<Patent> arrayListPatents = readFile(); //2.	Прочитайте информацию из файла “patents.csv”, сохраните её в список типа List<Patent>. Поля в файле разделены “,” (3 символа). Файл может содержать дубликаты.
-        LinkedList<Patent> listModelingPatents = createModelingList(arrayListPatents); // 3.	Создайте коллекцию патентов по теме «Моделирование» (modeling).
+        List<Patent> arrayListPatents = readFile(); //2.	Прочитайте информацию из файла “patents.csv”, сохраните её в список типа List<Patent>. Поля в файле разделены “,” (3 символа). Файл может содержать дубликаты.
+        List<Patent> listModelingPatents = createModelingList(arrayListPatents); // 3.	Создайте коллекцию патентов по теме «Моделирование» (modeling).
         Patent max = findeMaxMpkPatent(arrayListPatents);// 4.	Найдите патент, для которого указано наибольшее количество рубрик МПК.
-        ArrayList<Patent> listNoChaiPatents = createNoChaiList(arrayListPatents); //5.	Создайте сортированную по дате регистрации коллекцию патентов не из Китая.
-        ArrayList<Patent> listNoChaiPatentsCopy = new ArrayList<>(listNoChaiPatents);
+        List<Patent> listNoChaiPatents = createNoChaiList(arrayListPatents); //5.	Создайте сортированную по дате регистрации коллекцию патентов не из Китая.
+        List<Patent> listNoChaiPatentsCopy = new ArrayList<>(listNoChaiPatents);
         Comparator<Patent> byDate = Comparator.comparing(Patent::getDate);
         sortListByDateTypeA(listNoChaiPatents,byDate);
-        TreeSet<Patent> setNoChaiPatents = sortListByDateTypeB(listNoChaiPatentsCopy, byDate);
-        ArrayList<String> listPatentMpkGtOne =  createListPatentMpkGtOne(arrayListPatents);//6.	Создайте коллекцию рубрик МПК, указанных в файле более одного раза (используя Map, List)
+        Set<Patent> setNoChaiPatents = sortListByDateTypeB(listNoChaiPatentsCopy, byDate);
+        List<String> listPatentMpkGtOne =  createListPatentMpkGtOne(arrayListPatents);//6.	Создайте коллекцию рубрик МПК, указанных в файле более одного раза (используя Map, List)
 
         JSONArray modelingPatents = new JSONArray(listModelingPatents);
         JSONArray sortedListNoChaiPatents = new JSONArray(listNoChaiPatents);
@@ -34,7 +34,7 @@ public class Demo {
         }
 
     }
-    public static ArrayList<Patent> readFile() throws IOException {
+    public static List<Patent> readFile() throws IOException {
         LinkedList<Patent> linkedListPatents = new LinkedList<>();
         try(BufferedReader br = new BufferedReader(new FileReader("src/patents.csv")))
         {
@@ -49,9 +49,9 @@ public class Demo {
         return new ArrayList<>(linkedListPatents);
 
     }
-    public static LinkedList<Patent> createModelingList(ArrayList<Patent> arrayListPatents)
+    public static List<Patent> createModelingList(List<Patent> arrayListPatents)
     {
-        LinkedList<Patent> listModelingPatents = new LinkedList<>();
+        List<Patent> listModelingPatents = new LinkedList<>();
         for (Patent patent: arrayListPatents)
         {
             if (patent.getTitle().contains("modeling"))
@@ -60,7 +60,7 @@ public class Demo {
         return listModelingPatents;
 
     }
-    public static Patent findeMaxMpkPatent(ArrayList<Patent> arrayListPatents)
+    public static Patent findeMaxMpkPatent(List<Patent> arrayListPatents)
     {
         Patent max = arrayListPatents.get(0);
         for(Patent patent: arrayListPatents)
@@ -70,9 +70,9 @@ public class Demo {
         }
         return max;
     }
-    public static ArrayList<Patent> createNoChaiList(ArrayList<Patent> arrayListPatents)
+    public static List<Patent> createNoChaiList(List<Patent> arrayListPatents)
     {
-        ArrayList<Patent> listNoChaiPatents = new ArrayList<>();
+        List<Patent> listNoChaiPatents = new ArrayList<>();
         boolean isChina = false;
         for(Patent patent: arrayListPatents)
         {
@@ -88,18 +88,18 @@ public class Demo {
         }
         return listNoChaiPatents;
     }
-    public static void sortListByDateTypeA(ArrayList<Patent> listNoChaiPatents, Comparator<Patent> byDate)
+    public static void sortListByDateTypeA(List<Patent> listNoChaiPatents, Comparator<Patent> byDate)
     {
         listNoChaiPatents.sort(byDate);
     }
 
-    public static TreeSet<Patent> sortListByDateTypeB(ArrayList<Patent> listNoChaiPatents, Comparator<Patent> byDate)
+    public static Set<Patent> sortListByDateTypeB(List<Patent> listNoChaiPatents, Comparator<Patent> byDate)
     {
         TreeSet<Patent> setNoChaiPatents = new TreeSet<>(byDate);
         setNoChaiPatents.addAll(listNoChaiPatents);
         return setNoChaiPatents;
     }
-    public static ArrayList<String> createListPatentMpkGtOne(ArrayList<Patent> arrayListPatents)
+    public static ArrayList<String> createListPatentMpkGtOne(List<Patent> arrayListPatents)
     {
         HashMap<String, Integer> mapMpk = new HashMap<>();
         for(Patent patent: arrayListPatents) {
