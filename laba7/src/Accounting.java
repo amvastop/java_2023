@@ -41,7 +41,7 @@ public class Accounting implements Observer {
 
     public void update(Observable o, Object args){
         if (o.equals(warehouse) ) {
-            if (((Warehouse) o).isCanBuy())
+            if (((Warehouse) o).isHaveItem())
                 income += prise;
         }
         else

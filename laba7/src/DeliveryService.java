@@ -14,7 +14,7 @@ public class DeliveryService  implements Observer {
     }
     public void update(Observable o, Object args){
         if (o.equals(warehouse)) {
-            if (((Warehouse) o).isCanBuy())
+            if (((Warehouse) o).isHaveItem())
                 System.out.println(item + " отправлен");;
         } else
             item = ((Shop) o).getItem();

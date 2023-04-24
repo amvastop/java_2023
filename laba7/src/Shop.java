@@ -32,7 +32,7 @@ public class Shop extends Observable implements Observer{
     }
 
     public void update(Observable o, Object args){
-        isSell =   ((Warehouse) o).isCanBuy();
+        isSell = ((Warehouse) o).isHaveItem();
     }
 
     public  void  buyItem(String item, int prise)

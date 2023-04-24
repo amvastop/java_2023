@@ -13,7 +13,7 @@ import java.util.Observer;
  */
 public class Warehouse extends  Observable implements Observer {
     private Map<String, Integer> quantity = new HashMap<>();
-    private boolean canBuy;
+    private boolean isHaveItem;
     private Observable shop;
 
     public Warehouse(Observable shop){
@@ -27,8 +27,8 @@ public class Warehouse extends  Observable implements Observer {
         shop.addObserver(this);
     }
 
-    public boolean isCanBuy() {
-        return canBuy;
+    public boolean isHaveItem() {
+        return isHaveItem;
     }
 
     public void update(Observable o, Object args){  //обрабаьывает запрос на покупку
@@ -36,11 +36,11 @@ public class Warehouse extends  Observable implements Observer {
         int prevValue = quantity.get(item);
         if (prevValue == 0) {
             System.out.println("Товара \"" + item + "\" нет на складе.");
-            canBuy = false;
+            isHaveItem = false;
         } else {
             System.out.println("Спасибо за покупку!");
             quantity.put( item, --prevValue);
-            canBuy = true;
+            isHaveItem = true;
         }
         setChanged();
         notifyObservers();
