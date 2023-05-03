@@ -6,6 +6,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.Math.round;
+
 public class Athlete implements Runnable{
     private double speed;
     private String teamName;
@@ -21,7 +23,7 @@ public class Athlete implements Runnable{
     {
         this.name = name;
         this.barrier = barrier;
-        this.speed = speed;
+        this.speed = speed; // км/ч
         this.teamName = teamName;
         this.latch = latch;
     }
@@ -31,17 +33,17 @@ public class Athlete implements Runnable{
         try {
             if (barrier != null)
                 barrier.await();
-            System.out.println("начал " + name + " команда " + teamName + new Date());
+            System.out.println("начал " + name + " команда " + teamName + " " + new Date());
         } catch (InterruptedException | BrokenBarrierException e) {
             throw new RuntimeException(e);
         }
-        long time =  ( long )(200 / speed) ;
+        long time = round(100 * 3.6 * 1000 / speed )   ;
         try {
-            TimeUnit.SECONDS.sleep(time);
+            TimeUnit.MILLISECONDS.sleep(time);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("закнчил " + name + " команда " + teamName + new Date());
+        System.out.println("закнчил " + name + " команда " + teamName + " " + new Date());
         latch.countDown();
     }
 }
